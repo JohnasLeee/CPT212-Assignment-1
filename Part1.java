@@ -10,7 +10,7 @@ public class Part1 {
             System.out.println(e);
         }
 
-        int n = 5; // number of digits
+        int n = 4; // number of digits, but the weakness is that it can only handle up to 10 digits
         Random rand = new Random();
 
         int lowerBound = (int) Math.pow(10, n - 1);
@@ -21,6 +21,7 @@ public class Part1 {
         System.out.println(
                 "Multiplication result of " + multiplier + " x " + multiplicand + " : "
                         + multiply(multiplier, multiplicand));
+
     }
 
     public static long multiply(int multiplier, int multiplicand) {
