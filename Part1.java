@@ -10,17 +10,21 @@ public class Part1 {
             System.out.println(e);
         }
 
-        int n = 4; // number of digits, but the weakness is that it can only handle up to 10 digits
-        Random rand = new Random();
+        for (int i = 1; i <= 10; i++) {
+            int n = i; // number of digits, but the weakness is that it can only handle up to 10 digits
+            Random rand = new Random();
 
-        int lowerBound = (int) Math.pow(10, n - 1);
-        int upperBound = (int) Math.pow(10, n) - 1;
+            int lowerBound = (int) Math.pow(10, n - 1);
+            int upperBound = (int) Math.pow(10, n) - 1;
 
-        int multiplier = rand.nextInt(upperBound - lowerBound) + lowerBound;
-        int multiplicand = rand.nextInt(upperBound - lowerBound) + lowerBound;
-        System.out.println(
-                "Multiplication result of " + multiplier + " x " + multiplicand + " : "
-                        + multiply(multiplier, multiplicand));
+            int multiplier = rand.nextInt(upperBound - lowerBound) + lowerBound;
+            int multiplicand = rand.nextInt(upperBound - lowerBound) + lowerBound;
+            System.out.println("=====================================");
+            System.out.println(n + " digits");
+            System.out.println(
+                    "\nMultiplication result of " + multiplier + " x " + multiplicand + " = "
+                            + multiply(multiplier, multiplicand) + "\n");
+        }
 
     }
 
@@ -66,7 +70,7 @@ public class Part1 {
 
             sb.setLength(0); // Clear sb after printing
 
-            System.out.println("Carrier products for " + multiplier_str + " x " + multiplicand_str.charAt(i));
+            System.out.println("\nCarrier products for " + multiplier_str + " x " + multiplicand_str.charAt(i));
 
             // Pop stack_carrier and append to a string
             while (!stack_carrier.isEmpty()) {
