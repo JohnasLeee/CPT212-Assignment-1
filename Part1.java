@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.Random;
 
 public class Part1 {
     public static void main(String[] args) {
@@ -9,14 +10,24 @@ public class Part1 {
             System.out.println(e);
         }
 
-        // later will be replaced by random numbers to check the steps correct or not
-        int multiplier = 52301;
-        int multiplicand = 380;
-        System.out.println("Multiplication result: " + multiply(multiplier, multiplicand));
+        int n = 5; // number of digits
+        Random rand = new Random();
+
+        int lowerBound = (int) Math.pow(10, n - 1);
+        int upperBound = (int) Math.pow(10, n) - 1;
+
+        int multiplier = rand.nextInt(upperBound - lowerBound) + lowerBound;
+        int multiplicand = rand.nextInt(upperBound - lowerBound) + lowerBound;
+        System.out.println(
+                "Multiplication result of " + multiplier + " x " + multiplicand + " : "
+                        + multiply(multiplier, multiplicand));
     }
 
-    public static String multiply(int multiplier, int multiplicand) {
+    public static long multiply(int multiplier, int multiplicand) {
+        long result = 0;
         StringBuilder sb = new StringBuilder();
+        String partial = "";
+        String carrier = "";
         Stack<Integer> stack_partial = new Stack();
         Stack<Integer> stack_carrier = new Stack();
 
@@ -24,14 +35,13 @@ public class Part1 {
         String multiplicand_str = String.valueOf(multiplicand);
         String multiplier_str = String.valueOf(multiplier);
 
-        // Create an array to store the result
-        int[] result = new int[multiplicand_str.length() + multiplier_str.length()];
-
+        int counter = 0;
         // Perform multiplication digit by digit
         for (int i = multiplicand_str.length() - 1; i >= 0; i--) {
             for (int j = multiplier_str.length() - 1; j >= 0; j--) {
 
                 int product = (multiplicand_str.charAt(i) - '0') * (multiplier_str.charAt(j) - '0');
+
                 if (product >= 10) {
                     stack_partial.push(product % 10);
                     stack_carrier.push(product / 10);
@@ -41,38 +51,42 @@ public class Part1 {
                 }
 
             }
+            System.out.println("\nPartial products for " + multiplier_str + " x " + multiplicand_str.charAt(i));
             // Pop stack_partial and append to a string
-
             while (!stack_partial.isEmpty()) {
-                String partial = String.valueOf(stack_partial.pop());
+                partial = String.valueOf(stack_partial.pop());
                 sb.append(partial);
             }
-            System.out.println("\nPartial Result: " + sb.toString());
+            System.out.println("Partial Result: " + sb.toString());
+            for (int k = 0; k < counter; k++) {
+                sb.append("0");
+            }
+            result += Long.valueOf(sb.toString());
+
             sb.setLength(0); // Clear sb after printing
+
+            System.out.println("Carrier products for " + multiplier_str + " x " + multiplicand_str.charAt(i));
 
             // Pop stack_carrier and append to a string
             while (!stack_carrier.isEmpty()) {
-                String carrier = String.valueOf(stack_carrier.pop());
+                carrier = String.valueOf(stack_carrier.pop());
                 sb.append(carrier);
             }
             System.out.println("Carrier Result: " + sb.toString());
+            for (int k = 0; k < counter + 1; k++) {
+                sb.append("0");
+            }
+            result += Long.valueOf(sb.toString());
+
             sb.setLength(0); // Clear sb after printing
 
             // Clear the queues
             stack_partial.clear();
             stack_carrier.clear();
-
-        }
-
-        // Convert the result array to a string
-        for (int num : result) {
-            // Ignore leading zeros
-            if (!(sb.length() == 0 && num == 0)) {
-                sb.append(num);
-            }
+            counter++;
         }
 
         // Return the final result as a string
-        return sb.length() == 0 ? "0" : sb.toString();
+        return result;
     }
 }
