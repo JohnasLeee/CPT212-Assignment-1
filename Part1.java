@@ -2,14 +2,23 @@ import java.util.Stack;
 
 public class Part1 {
     public static void main(String[] args) {
-        int num1 = 52301;
-        int num2 = 380;
-        System.out.println("Multiplication result: " + multiply(num1, num2));
+        // Clear the console
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        // later will be replaced by random numbers to check the steps correct or not
+        int multiplier = 52301;
+        int multiplicand = 380;
+        System.out.println("Multiplication result: " + multiply(multiplier, multiplicand));
     }
 
     public static String multiply(int multiplier, int multiplicand) {
-        Stack stack_partial = new Stack();
-        Stack stack_carrier = new Stack();
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> stack_partial = new Stack();
+        Stack<Integer> stack_carrier = new Stack();
 
         // Convert the numbers to strings
         String multiplicand_str = String.valueOf(multiplicand);
@@ -21,6 +30,7 @@ public class Part1 {
         // Perform multiplication digit by digit
         for (int i = multiplicand_str.length() - 1; i >= 0; i--) {
             for (int j = multiplier_str.length() - 1; j >= 0; j--) {
+
                 int product = (multiplicand_str.charAt(i) - '0') * (multiplier_str.charAt(j) - '0');
                 if (product >= 10) {
                     stack_partial.push(product % 10);
@@ -29,16 +39,32 @@ public class Part1 {
                     stack_partial.push(product);
                     stack_carrier.push(0);
                 }
-                System.out.println("\nMultiplier: " + multiplier_str.charAt(j));
-                System.out.println("Multiplicand: " + multiplicand_str.charAt(i));
-                System.out.println("Partial: " + stack_partial);
-                System.out.println("Carrier: " + stack_carrier);
+
             }
+            // Pop stack_partial and append to a string
+
+            while (!stack_partial.isEmpty()) {
+                String partial = String.valueOf(stack_partial.pop());
+                sb.append(partial);
+            }
+            System.out.println("\nPartial Result: " + sb.toString());
+            sb.setLength(0); // Clear sb after printing
+
+            // Pop stack_carrier and append to a string
+            while (!stack_carrier.isEmpty()) {
+                String carrier = String.valueOf(stack_carrier.pop());
+                sb.append(carrier);
+            }
+            System.out.println("Carrier Result: " + sb.toString());
+            sb.setLength(0); // Clear sb after printing
+
+            // Clear the queues
+            stack_partial.clear();
+            stack_carrier.clear();
 
         }
 
         // Convert the result array to a string
-        StringBuilder sb = new StringBuilder();
         for (int num : result) {
             // Ignore leading zeros
             if (!(sb.length() == 0 && num == 0)) {
