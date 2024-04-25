@@ -13,6 +13,7 @@ public class Main {
             System.out.println(e);
         }
 
+        int[] values = new int[10];
         // for loop that executes simple multiplication for n = 1 to 10
         for (int n = 1; n <= 10; n++) {
 
@@ -23,11 +24,30 @@ public class Main {
 
             BigInteger multiplier = BigInteger.valueOf(rand.nextInt(upperBound - lowerBound) + lowerBound);
             BigInteger multiplicand = BigInteger.valueOf(rand.nextInt(upperBound - lowerBound) + lowerBound);
-            multiply(multiplier, multiplicand);
+            // Calculate the sum of operations for the current multiplication
+            int sumOfOperations = multiply(multiplier, multiplicand);
+    
+            // Store the sum of operations in the values array
+            values[n - 1] = sumOfOperations;
+        }
+
+        try {
+            FileWriter fileWriter = new FileWriter("result.csv", false); // Set append to false
+            PrintWriter writer = new PrintWriter(fileWriter);
+        
+            // Loop through the array and write each value to the file
+            for (int i = 0; i < values.length; i++) {
+                writer.println(values[i]);
+            }
+        
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
         }
     }
 
-    public static void multiply(BigInteger num1, BigInteger num2) {
+    public static int multiply(BigInteger num1, BigInteger num2) {
         String strNum1 = num1.toString();
         String strNum2 = num2.toString();
         BigInteger result = BigInteger.ZERO;
@@ -102,16 +122,7 @@ public class Main {
          * System.out.println("Divisions: " + divisions);
          * System.out.println("Assignments: " + assignments);
          */
-        System.out.println("Total Primitive Operations: " + (additions + multiplications + assignments + divisions));
-        System.out.println("---------------------------------------------------\n\n");
-        try {
-            FileWriter fileWriter = new FileWriter("result.csv", true);
-            PrintWriter writer = new PrintWriter(fileWriter);
-            writer.println((additions + multiplications + assignments + divisions));
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
-        }
+        
+         return additions+multiplications+divisions+assignments;
     }
 }
