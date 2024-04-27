@@ -13,7 +13,8 @@ public class Main {
             System.out.println(e);
         }
 
-        int[] values = new int[10];
+        int[] values = new int[10]; // Array to store the number of operations for each multiplication
+
         // for loop that executes simple multiplication for n = 1 to 10
         for (int n = 1; n <= 10; n++) {
 
@@ -26,7 +27,7 @@ public class Main {
             BigInteger multiplicand = BigInteger.valueOf(rand.nextInt(upperBound - lowerBound) + lowerBound);
             // Calculate the sum of operations for the current multiplication
             int sumOfOperations = multiply(multiplier, multiplicand);
-    
+
             // Store the sum of operations in the values array
             values[n - 1] = sumOfOperations;
         }
@@ -34,12 +35,12 @@ public class Main {
         try {
             FileWriter fileWriter = new FileWriter("result.csv", false); // Set append to false
             PrintWriter writer = new PrintWriter(fileWriter);
-        
+
             // Loop through the array and write each value to the file
             for (int i = 0; i < values.length; i++) {
                 writer.println(values[i]);
             }
-        
+
             writer.close();
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
@@ -63,7 +64,7 @@ public class Main {
         System.out.println("----------- ");
 
         comparisons++;
-        for (int i = strNum2.length() - 1; i >= 0; i--) {
+        for (int i = strNum2.length() - 1; i >= 0; i--) { // N+1 STEPS
             int n2 = strNum2.charAt(i) - '0';
             int carry = 0;
             String line = "";
@@ -112,6 +113,8 @@ public class Main {
 
             result = result.add(new BigInteger(line)).add(new BigInteger(carryLine));
             additions += 2;
+
+            comparisons++; // for loop to check i>=0
         }
 
         System.out.println("Final result: " + result);
@@ -122,7 +125,7 @@ public class Main {
          * System.out.println("Divisions: " + divisions);
          * System.out.println("Assignments: " + assignments);
          */
-        
-         return additions+multiplications+divisions+assignments;
+
+        return comparisons + additions + multiplications + divisions + assignments;
     }
 }
