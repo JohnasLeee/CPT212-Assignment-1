@@ -13,18 +13,24 @@ public class Main {
             System.out.println(e);
         }
 
-        int[] values = new int[10]; // Array to store the number of operations for each multiplication
+        int[] values = new int[100]; // Array to store the number of operations for each multiplication
 
+        // Start timer
+        long startTime = System.nanoTime();
         // for loop that executes simple multiplication for n = 1 to 10
-        for (int n = 1; n <= 10; n++) {
+        for (int n = 1; n <= 100; n++) {
 
             Random rand = new Random();
 
-            int lowerBound = (int) Math.pow(10, n - 1);
-            int upperBound = (int) Math.pow(10, n) - 1;
+            BigInteger lowerBound = BigInteger.TEN.pow(n - 1);
+            BigInteger upperBound = BigInteger.TEN.pow(n).subtract(BigInteger.ONE);
 
-            BigInteger multiplier = BigInteger.valueOf(rand.nextInt(upperBound - lowerBound) + lowerBound);
-            BigInteger multiplicand = BigInteger.valueOf(rand.nextInt(upperBound - lowerBound) + lowerBound);
+            BigInteger multiplier = new BigInteger(upperBound.bitLength(), rand)
+                    .mod(upperBound.subtract(lowerBound))
+                    .add(lowerBound);
+            BigInteger multiplicand = new BigInteger(upperBound.bitLength(), rand)
+                    .mod(upperBound.subtract(lowerBound))
+                    .add(lowerBound);
             // Calculate the sum of operations for the current multiplication
             int sumOfOperations = multiply(multiplier, multiplicand);
 
@@ -46,6 +52,13 @@ public class Main {
             System.out.println("An error occurred while writing to the file.");
             e.printStackTrace();
         }
+        // End timer
+        long endTime = System.nanoTime();
+
+        // Calculate elapsed time in seconds
+        double elapsedTimeInSeconds = (endTime - startTime) / 1_000_000_000.0;
+
+        System.out.println("Elapsed time: " + elapsedTimeInSeconds + " seconds");
     }
 
     public static int multiply(BigInteger num1, BigInteger num2) {
@@ -107,9 +120,10 @@ public class Main {
                 comparisons++;// for loop to check k < strNum2.length()-1-i
             }
 
-            System.out.println(line + "   partial products for (" + num1 + " x " + n2 + ")");
-            System.out.println(carryLine + "   carries for (" + num1 + " x " + n2 + ")");
-            System.out.println("______");
+            // System.out.println(line + " partial products for (" + num1 + " x " + n2 +
+            // ")");
+            // System.out.println(carryLine + " carries for (" + num1 + " x " + n2 + ")");
+            // System.out.println("______");
 
             result = result.add(new BigInteger(line)).add(new BigInteger(carryLine));
             additions += 2;
