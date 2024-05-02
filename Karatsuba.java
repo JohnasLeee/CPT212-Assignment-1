@@ -12,6 +12,7 @@ class Karatsuba {
     static long comparisonCount = 0;
 
     public static long mult(long x, long y) {
+        comparisonCount++;
         if (x < 10 && y < 10) {
             // Counting multiplication when x and y are less than 10
             multiplicationCount++;
