@@ -95,6 +95,16 @@ class Karatsuba {
         // for loop that executes karatsuba algorithm from 1-100 digits
         for (int n = 1; n <= 100; n++) {
 
+            // Reset counters for each loop
+            additionCount = 0;
+            subtractionCount = 0;
+            multiplicationCount = 0;
+            divisionsCount = 0;
+            comparisonCount = 0;
+            returnCount = 0;
+            functionCallCount = 0;
+            assignmentsCount = 0;
+
             // generate random numbers of n digits
             Random rand = new Random();
 
