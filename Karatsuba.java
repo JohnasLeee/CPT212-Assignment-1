@@ -15,6 +15,7 @@ class Karatsuba {
             // Multiplying the inputs entered 
             return x * y;
         }
+<<<<<<< Updated upstream
       
         // Declaring variables in order to  
         // Find length of both integer
@@ -51,6 +52,55 @@ class Karatsuba {
         long ans = (z0 * (long)Math.pow(10, halfMaxNumLength * 2) + 
                    ((z1 - z0 - z2) * (long)Math.pow(10, halfMaxNumLength) + z2));
  
+=======
+
+        assignmentsCount++;
+        functionCallCount++;
+        int noOneLength = numLength(x);
+
+        assignmentsCount++;
+        functionCallCount++;
+        int noTwoLength = numLength(y);
+
+        assignmentsCount++;
+        int maxNumLength = Math.max(noOneLength, noTwoLength);
+        // not part of core functionality
+        BigInteger halfMaxNumLength = BigInteger.valueOf(maxNumLength / 2 + maxNumLength % 2);
+        // not part of core functionality
+        BigInteger maxNumLengthTen = BigInteger.TEN.pow(halfMaxNumLength.intValue());
+        // not part of core functionality
+        BigInteger a = x.divide(maxNumLengthTen);
+        // not part of core functionality
+        BigInteger b = x.mod(maxNumLengthTen);
+        // not part of core functionality
+        BigInteger c = y.divide(maxNumLengthTen);
+        // not part of core functionality
+        BigInteger d = y.mod(maxNumLengthTen);
+
+        assignmentsCount++;
+        functionCallCount++;
+        BigInteger z0 = mult(a, c);
+
+        assignmentsCount++;
+        functionCallCount++;
+        additionCount += 2;
+        BigInteger z1 = mult(a.add(b), c.add(d));
+
+        assignmentsCount++;
+        functionCallCount++;
+        BigInteger z2 = mult(b, d);
+
+        // Counting multiplications
+        multiplicationCount += 3;
+        additionCount += 2;
+        subtractionCount += 2;
+        functionCallCount += 2;
+        assignmentsCount++;
+        BigInteger ans = z0.multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue() * 2))
+                .add((z1.subtract(z0).subtract(z2)).multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue())).add(z2));
+
+        returnCount++;
+>>>>>>> Stashed changes
         return ans;
  
     }
@@ -60,12 +110,26 @@ class Karatsuba {
     public static int numLength(long n)
     {
         int noLen = 0;
+<<<<<<< Updated upstream
         while (n > 0) {
             noLen++;
             n /= 10;
         }
  
         // Returning length of number n
+=======
+        comparisonCount++;
+        while (n.compareTo(BigInteger.ZERO) > 0) {
+            assignmentsCount++;
+            additionCount++;
+            noLen++;
+
+            assignmentsCount++;
+            divisionsCount++;
+            n = n.divide(BigInteger.TEN);
+        }
+        returnCount++;
+>>>>>>> Stashed changes
         return noLen;
     }
  
