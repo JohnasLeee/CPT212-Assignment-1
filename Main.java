@@ -13,12 +13,12 @@ public class Main {
             System.out.println(e);
         }
 
-        int[] values = new int[100]; // Array to store the number of operations for each multiplication
+        int[] values = new int[1000]; // Array to store the number of operations for each multiplication
 
         // Start timer
         long startTime = System.nanoTime();
         // for loop that executes simple multiplication for n = 1 to 10
-        for (int n = 1; n <= 100; n++) {
+        for (int n = 1; n <= 1000; n++) {
 
             Random rand = new Random();
 

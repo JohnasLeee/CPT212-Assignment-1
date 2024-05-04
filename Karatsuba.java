@@ -26,23 +26,41 @@ class Karatsuba {
             return x.multiply(y);
         }
 
-        // not part of core functionality
+        assignmentsCount++;
+        functionCallCount++;
         int noOneLength = numLength(x);
-        // not part of core functionality
+
+        assignmentsCount++;
+        functionCallCount++;
         int noTwoLength = numLength(y);
-        // not part of core functionality
+
+        assignmentsCount++;
+        functionCallCount++;
         int maxNumLength = Math.max(noOneLength, noTwoLength);
-        // not part of core functionality
+
+        assignmentsCount++;
+        divisionsCount += 2;
+        additionCount++;
         BigInteger halfMaxNumLength = BigInteger.valueOf(maxNumLength / 2 + maxNumLength % 2);
-        // not part of core functionality
+
+        assignmentsCount++;
+        functionCallCount++;
         BigInteger maxNumLengthTen = BigInteger.TEN.pow(halfMaxNumLength.intValue());
-        // not part of core functionality
+
+        assignmentsCount++;
+        divisionsCount++;
         BigInteger a = x.divide(maxNumLengthTen);
-        // not part of core functionality
+
+        assignmentsCount++;
+        divisionsCount++;
         BigInteger b = x.mod(maxNumLengthTen);
-        // not part of core functionality
+
+        assignmentsCount++;
+        divisionsCount++;
         BigInteger c = y.divide(maxNumLengthTen);
-        // not part of core functionality
+
+        assignmentsCount++;
+        divisionsCount++;
         BigInteger d = y.mod(maxNumLengthTen);
 
         assignmentsCount++;
@@ -73,10 +91,19 @@ class Karatsuba {
 
     public static int numLength(BigInteger n) {
         int noLen = 0;
+
+        comparisonCount++; // Enter while loop
         while (n.compareTo(BigInteger.ZERO) > 0) {
+            assignmentsCount++;
+            additionCount++;
             noLen++;
+
+            divisionsCount++;
+            assignmentsCount++;
             n = n.divide(BigInteger.TEN);
         }
+
+        returnCount++;
         return noLen;
     }
 
@@ -90,10 +117,10 @@ class Karatsuba {
 
         BigInteger expectedProduct, actualProduct;
 
-        long[] values = new long[100];
+        long[] values = new long[1000];
 
         // for loop that executes karatsuba algorithm from 1-100 digits
-        for (int n = 1; n <= 100; n++) {
+        for (int n = 1; n <= 1000; n++) {
 
             // Reset counters for each loop
             additionCount = 0;
