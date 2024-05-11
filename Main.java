@@ -120,10 +120,10 @@ public class Main {
                 comparisons++;// for loop to check k < strNum2.length()-1-i
             }
 
-            // System.out.println(line + " partial products for (" + num1 + " x " + n2 +
-            // ")");
-            // System.out.println(carryLine + " carries for (" + num1 + " x " + n2 + ")");
-            // System.out.println("______");
+            System.out.println(line + " partial products for (" + num1 + " x " + n2 +
+                    ")");
+            System.out.println(carryLine + " carries for (" + num1 + " x " + n2 + ")");
+            System.out.println("______");
 
             result = result.add(new BigInteger(line)).add(new BigInteger(carryLine));
             additions += 2;
