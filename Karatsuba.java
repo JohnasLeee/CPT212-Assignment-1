@@ -1,198 +1,192 @@
-/// Java Program to Implement Karatsuba Algorithm
- 
-// Importing Random class from java.util packahge
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
- 
-// MAin class 
+import java.math.BigInteger;
+
 class Karatsuba {
- 
-    // Main driver method 
-    public static long mult(long x, long y) {
- 
-        // Checking only if input is within range  
-        if (x < 10 && y < 10) {
-           
-            // Multiplying the inputs entered 
-            return x * y;
+
+        // Counter variables
+        static long additionCount = 0;
+        static long subtractionCount = 0;
+        static long multiplicationCount = 0;
+        static long divisionsCount = 0;
+        static long comparisonCount = 0;
+        static long returnCount = 0;
+        static long functionCallCount = 0;
+        static long assignmentsCount = 0;
+
+        public static BigInteger mult(BigInteger x, BigInteger y) {
+
+                comparisonCount += 3; // compare x and y with 10 and a logical AND
+                if (x.compareTo(BigInteger.TEN) < 0 && y.compareTo(BigInteger.TEN) < 0) {
+                        // Counting multiplication when x and y are less than 10
+                        multiplicationCount++;
+                        returnCount++;
+                        return x.multiply(y);
+                }
+
+                assignmentsCount++;
+                functionCallCount++;
+                int noOneLength = numLength(x);
+
+                assignmentsCount++;
+                functionCallCount++;
+                int noTwoLength = numLength(y);
+
+                assignmentsCount++;
+                functionCallCount++;
+                int maxNumLength = Math.max(noOneLength, noTwoLength);
+
+                assignmentsCount++;
+                divisionsCount += 2;
+                additionCount++;
+                BigInteger halfMaxNumLength = BigInteger.valueOf(maxNumLength / 2 + maxNumLength % 2);
+
+                assignmentsCount++;
+                functionCallCount++;
+                BigInteger maxNumLengthTen = BigInteger.TEN.pow(halfMaxNumLength.intValue());
+
+                assignmentsCount++;
+                divisionsCount++;
+                BigInteger a = x.divide(maxNumLengthTen);
+
+                assignmentsCount++;
+                divisionsCount++;
+                BigInteger b = x.mod(maxNumLengthTen);
+
+                assignmentsCount++;
+                divisionsCount++;
+                BigInteger c = y.divide(maxNumLengthTen);
+
+                assignmentsCount++;
+                divisionsCount++;
+                BigInteger d = y.mod(maxNumLengthTen);
+
+                assignmentsCount++;
+                functionCallCount++;
+                BigInteger z0 = mult(a, c);
+
+                assignmentsCount++;
+                functionCallCount++;
+                additionCount += 2;
+                BigInteger z1 = mult(a.add(b), c.add(d));
+
+                assignmentsCount++;
+                functionCallCount++;
+                BigInteger z2 = mult(b, d);
+
+                // Counting multiplications
+                multiplicationCount += 3;
+                additionCount += 2;
+                subtractionCount += 2;
+                functionCallCount += 2;
+                assignmentsCount++;
+                BigInteger ans = z0.multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue() * 2))
+                                .add((z1.subtract(z0).subtract(z2))
+                                                .multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue())).add(z2));
+
+                returnCount++;
+                return ans;
         }
-<<<<<<< Updated upstream
-      
-        // Declaring variables in order to  
-        // Find length of both integer
-        // numbers x and y
-        int noOneLength = numLength(x);
-        int noTwoLength = numLength(y);
- 
-        // Finding maximum length from both numbers
-        // using math library max function
-        int maxNumLength
-            = Math.max(noOneLength, noTwoLength);
- 
-        // Rounding up the divided Max length
-        Integer halfMaxNumLength
-            = (maxNumLength / 2) + (maxNumLength % 2);
- 
-        // Multiplier
-        long maxNumLengthTen
-            = (long)Math.pow(10, halfMaxNumLength);
- 
-        // Compute the expressions
-        long a = x / maxNumLengthTen;
-        long b = x % maxNumLengthTen;
-        long c = y / maxNumLengthTen;
-        long d = y % maxNumLengthTen;
- 
- 
-        // Compute all mutilpying variables
-        // needed to get the multiplication    
-        long z0 = mult(a, c);
-        long z1 = mult(a + b, c + d);
-        long z2 = mult(b, d);
- 
-        long ans = (z0 * (long)Math.pow(10, halfMaxNumLength * 2) + 
-                   ((z1 - z0 - z2) * (long)Math.pow(10, halfMaxNumLength) + z2));
- 
-=======
 
-        assignmentsCount++;
-        functionCallCount++;
-        int noOneLength = numLength(x);
+        public static int numLength(BigInteger n) {
+                int noLen = 0;
 
-        assignmentsCount++;
-        functionCallCount++;
-        int noTwoLength = numLength(y);
+                comparisonCount++; // Enter while loop
+                while (n.compareTo(BigInteger.ZERO) > 0) {
+                        assignmentsCount++;
+                        additionCount++;
+                        noLen++;
 
-        assignmentsCount++;
-        int maxNumLength = Math.max(noOneLength, noTwoLength);
-        // not part of core functionality
-        BigInteger halfMaxNumLength = BigInteger.valueOf(maxNumLength / 2 + maxNumLength % 2);
-        // not part of core functionality
-        BigInteger maxNumLengthTen = BigInteger.TEN.pow(halfMaxNumLength.intValue());
-        // not part of core functionality
-        BigInteger a = x.divide(maxNumLengthTen);
-        // not part of core functionality
-        BigInteger b = x.mod(maxNumLengthTen);
-        // not part of core functionality
-        BigInteger c = y.divide(maxNumLengthTen);
-        // not part of core functionality
-        BigInteger d = y.mod(maxNumLengthTen);
+                        divisionsCount++;
+                        assignmentsCount++;
+                        n = n.divide(BigInteger.TEN);
+                }
 
-        assignmentsCount++;
-        functionCallCount++;
-        BigInteger z0 = mult(a, c);
-
-        assignmentsCount++;
-        functionCallCount++;
-        additionCount += 2;
-        BigInteger z1 = mult(a.add(b), c.add(d));
-
-        assignmentsCount++;
-        functionCallCount++;
-        BigInteger z2 = mult(b, d);
-
-        // Counting multiplications
-        multiplicationCount += 3;
-        additionCount += 2;
-        subtractionCount += 2;
-        functionCallCount += 2;
-        assignmentsCount++;
-        BigInteger ans = z0.multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue() * 2))
-                .add((z1.subtract(z0).subtract(z2)).multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue())).add(z2));
-
-        returnCount++;
->>>>>>> Stashed changes
-        return ans;
- 
-    }
-   
-      // Method 1
-    // To calculate length of the number
-    public static int numLength(long n)
-    {
-        int noLen = 0;
-<<<<<<< Updated upstream
-        while (n > 0) {
-            noLen++;
-            n /= 10;
+                returnCount++;
+                return noLen;
         }
- 
-        // Returning length of number n
-=======
-        comparisonCount++;
-        while (n.compareTo(BigInteger.ZERO) > 0) {
-            assignmentsCount++;
-            additionCount++;
-            noLen++;
 
-            assignmentsCount++;
-            divisionsCount++;
-            n = n.divide(BigInteger.TEN);
+        public static void main(String[] args) {
+                // clear the console
+                try {
+                        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                } catch (Exception e) {
+                        System.out.println(e);
+                }
+
+                BigInteger expectedProduct, actualProduct;
+
+                long[] values = new long[1000];
+
+                // for loop that executes karatsuba algorithm from 1-100 digits
+                for (int n = 1; n <= 1000; n++) {
+
+                        // Reset counters for each loop
+                        additionCount = 0;
+                        subtractionCount = 0;
+                        multiplicationCount = 0;
+                        divisionsCount = 0;
+                        comparisonCount = 0;
+                        returnCount = 0;
+                        functionCallCount = 0;
+                        assignmentsCount = 0;
+
+                        // generate random numbers of n digits
+                        Random rand = new Random();
+
+                        BigInteger lowerBound = BigInteger.TEN.pow(n - 1);
+                        BigInteger upperBound = BigInteger.TEN.pow(n).subtract(BigInteger.ONE);
+
+                        BigInteger multiplier = new BigInteger(upperBound.subtract(lowerBound).bitLength(), rand)
+                                        .mod(upperBound.subtract(lowerBound))
+                                        .add(lowerBound);
+                        BigInteger multiplicand = new BigInteger(upperBound.subtract(lowerBound).bitLength(), rand)
+                                        .mod(upperBound.subtract(lowerBound))
+                                        .add(lowerBound);
+
+                        // Calculate the sum of operations for the current multiplication
+                        expectedProduct = multiplier.multiply(multiplicand);
+                        actualProduct = mult(multiplier, multiplicand);
+
+                        System.out.println("Multiplier:   " + multiplier);
+                        System.out.println("Multiplicand: " + multiplicand);
+                        System.out.println("Expected:     " + expectedProduct);
+                        System.out.println("Actual:       " + actualProduct);
+
+                        // Print counts of primitive operations
+                        System.out.println("Primitive operations:");
+                        System.out.println("Additions: " + additionCount);
+                        System.out.println("Subtractions: " + subtractionCount);
+                        System.out.println("Multiplications: " + multiplicationCount);
+                        System.out.println("Divisions: " + divisionsCount);
+                        System.out.println("Returns: " + returnCount);
+                        System.out.println("Function Called: " + functionCallCount);
+                        System.out.println("Assignment: " + assignmentsCount);
+                        System.out.println("Comparisons: " + comparisonCount + "\n\n");
+
+                        assert (expectedProduct == actualProduct);
+                        // Store the sum of operations in the values array
+                        values[n - 1] = additionCount + subtractionCount + multiplicationCount + comparisonCount
+                                        + returnCount
+                                        + functionCallCount + divisionsCount + assignmentsCount;
+                }
+
+                // Write the values array to a file
+                try {
+                        FileWriter fileWriter = new FileWriter("result_K.csv", false); // Set append to false
+                        PrintWriter writer = new PrintWriter(fileWriter);
+
+                        // Loop through the array and write each value to the file
+                        for (int i = 0; i < values.length; i++) {
+                                writer.println(values[i]);
+                        }
+
+                        writer.close();
+                } catch (IOException e) {
+                        System.out.println("An error occurred while writing to the file.");
+                        e.printStackTrace();
+                }
         }
-        returnCount++;
->>>>>>> Stashed changes
-        return noLen;
-    }
- 
-     // Method 2
-    // Main driver function
-    public static void main(String[] args)
-    {
-        // Showcasing karatsuba multiplication
-         
-      // Case 1: Big integer lengths
-        long expectedProduct = 1234 * 5678;
-        long actualProduct = mult(1234, 5678);
- 
-        // Printing the expected and corresponding actual product 
-        System.out.println("Expected 1 : " + expectedProduct);
-        System.out.println("Actual 1 : " + actualProduct + "\n\n");
-       
-        assert(expectedProduct == actualProduct);
- 
- 
-        expectedProduct = 102 * 313;
-        actualProduct = mult(102, 313);
- 
-        System.out.println("Expected 2 : " + expectedProduct);
-        System.out.println("Actual 2 : " + actualProduct + "\n\n");
-         
-      assert(expectedProduct == actualProduct);
- 
-        expectedProduct = 1345 * 63456;
-        actualProduct = mult(1345, 63456);
- 
-        System.out.println("Expected 3 : " + expectedProduct);
-        System.out.println("Actual 3 : " + actualProduct + "\n\n");
-         
-      assert(expectedProduct == actualProduct);        
-     
-        Integer x = null;
-        Integer y = null;
-        Integer MAX_VALUE = 10000;
- 
-        // Boe creating an object of random class
-        // inside main() method 
-        Random r = new Random();
- 
-        for (int i = 0; i < MAX_VALUE; i++) {
-            x = (int) r.nextInt(MAX_VALUE);
-            y = (int) r.nextInt(MAX_VALUE);
- 
-            expectedProduct = x * y;
- 
-            if (i == 9999) {
-               
-              // Prove assertions catch the bad stuff.
-                expectedProduct = 1;    
-            }
-            actualProduct = mult(x, y);
- 
-             // Again printing the expected and 
-            // corresponding actual product 
-            System.out.println("Expected: " + expectedProduct);
-            System.out.println("Actual: " + actualProduct + "\n\n");
- 
-            assert(expectedProduct == actualProduct);        
-        }
-    }
 }
